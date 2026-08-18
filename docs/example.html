@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MindScribe — Wireframe Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #15130f;
+    --surface: #1d1a15;
+    --surface-raised: #251f17;
+    --border: #2e2a22;
+    --text: #ece6d8;
+    --text-muted: #9c9384;
+    --accent: #e3a44c;
+    --accent-soft: rgba(227,164,76,0.14);
+    --calm: #6e8f80;
+    --calm-soft: rgba(110,143,128,0.16);
+    --crisis: #c1666b;
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --radius-sm: 9px;
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 16px;
+    --space-4: 24px;
+    --space-5: 32px;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+
+  body{
+    background: #0a0906;
+    color: var(--text);
+    font-family: 'Work Sans', sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  .frame-label{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #5a5648;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .phone{
+    width: 380px;
+    height: 780px;
+    background: var(--bg);
+    border-radius: 40px;
+    border: 1px solid #33301f;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.7);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .statusbar{
+    height: 30px;
+    flex-shrink: 0;
+  }
+
+  .screen{
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 var(--space-4) 100px;
+    position: relative;
+  }
+
+  /* ---- Header ---- */
+  .app-header{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+  }
+  .app-title{
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .app-title .dot{ color: var(--accent); }
+  .app-date{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* ---- Calendar ---- */
+  .calendar-card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+  .calendar-month{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-3);
+  }
+  .cal-grid{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    text-align: center;
+  }
+  .cal-dow{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #55503f;
+    padding-bottom: 4px;
+  }
+  .cal-day{
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    border-radius: 50%;
+    color: var(--text-muted);
+    position: relative;
+  }
+  .cal-day.has-entry{ color: var(--text); }
+  .cal-day.has-entry::after{
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .cal-day.mood{ font-size: 15px; }
+  .cal-day.mood::after{ display: none; }
+  .cal-day.today{
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ---- Section label ---- */
+  .section-label{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: var(--space-2);
+  }
+
+  /* ---- Entry row (history + dashboard recent) ---- */
+  .entry-row{
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .entry-row:last-child{ border-bottom: none; }
+  .entry-mood{
+    font-size: 20px;
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .entry-body{ flex: 1; min-width: 0; }
+  .entry-title{
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+  .entry-snippet{
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .entry-date{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #55503f;
+    margin-top: 6px;
+  }
+  .entry-delete{
+    background: none;
+    border: none;
+    color: #55503f;
+    font-size: 15px;
+    cursor: pointer;
+    padding: 4px 6px;
+    align-self: center;
+  }
+
+  /* ---- History search / filter ---- */
+  .history-search{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: var(--space-4);
+  }
+  .history-month-label{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #55503f;
+    margin: var(--space-4) 0 var(--space-2);
+  }
+  .history-month-label:first-of-type{ margin-top: 0; }
+
+  /* ---- FAB ---- */
+  .fab{
+    position: absolute;
+    bottom: 92px;
+    right: 24px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #1a1408;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 500;
+    box-shadow: 0 0 0 0 rgba(227,164,76,0.5);
+    animation: glow 2.6s ease-in-out infinite;
+    border: none;
+    cursor: pointer;
+  }
+  @keyframes glow{
+    0%, 100%{ box-shadow: 0 0 0 0 rgba(227,164,76,0.35); }
+    50%{ box-shadow: 0 0 0 14px rgba(227,164,76,0); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .fab{ animation: none; }
+  }
+
+  /* ---- Bottom nav ---- */
+  .tabbar{
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 76px;
+    background: rgba(21,19,15,0.92);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding-bottom: 10px;
+  }
+  .tab{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #55503f;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .tab.active{ color: var(--accent); }
+  .tab-icon{ font-size: 18px; }
+
+  /* ---- New entry — chat-style ---- */
+  .chat-scroll{
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+  .bubble-row{
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .bubble-row.from-app{ justify-content: flex-start; }
+  .bubble-row.from-user{ justify-content: flex-end; }
+
+  .avatar-dot{
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .bubble{
+    max-width: 78%;
+    padding: 12px 15px;
+    line-height: 1.55;
+    font-size: 14.5px;
+  }
+  .bubble.app{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px 16px 16px 4px;
+    color: var(--text);
+  }
+  .bubble.app .eyebrow{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--calm);
+    display: block;
+    margin-bottom: 5px;
+  }
+  .bubble.app .q{
+    font-family: 'Fraunces', serif;
+    font-size: 15.5px;
+  }
+  .bubble.user{
+    background: var(--accent-soft);
+    border: 1px solid rgba(227,164,76,0.3);
+    border-radius: 16px 16px 4px 16px;
+    color: var(--text);
+  }
+  .bubble.user.draft{
+    background: var(--surface-raised);
+    border: 1px dashed var(--border);
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .bubble-actions{
+    display: flex;
+    gap: 6px;
+    margin: 2px 34px 0 0;
+    justify-content: flex-start;
+  }
+  .chip{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 11px;
+    background: none;
+    cursor: pointer;
+  }
+  .chip.skip{ color: #55503f; }
+
+  /* input bar pinned above tabbar for chat feel */
+  .composer{
+    position: absolute;
+    bottom: 76px; left: 0; right: 0;
+    background: rgba(21,19,15,0.96);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border);
+    padding: var(--space-3) var(--space-4);
+  }
+  .composer-input{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 10px 8px 10px 16px;
+  }
+  .composer-input .ph{
+    flex: 1;
+    font-size: 13.5px;
+    color: var(--text-muted);
+  }
+  .composer-send{
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #1a1408;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .mood-inline{
+    display: flex;
+    gap: 6px;
+    margin-top: var(--space-2);
+    justify-content: center;
+  }
+  .mood-inline button{
+    font-size: 16px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 9px;
+    opacity: 0.55;
+    cursor: pointer;
+  }
+  .mood-inline button.selected{
+    opacity: 1;
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  /* ---- Buttons ---- */
+  .btn{
+    font-family: 'Work Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 11px 18px;
+    cursor: pointer;
+  }
+  .btn-primary{ background: var(--accent); color: #1a1408; }
+  .btn-ghost{ background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+  .btn-full{ width: 100%; }
+
+  /* ---- Settings ---- */
+  .settings-group{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: var(--space-4);
+  }
+  .settings-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border);
+  }
+  .settings-row:last-child{ border-bottom: none; }
+  .settings-row-label{
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: 14px;
+  }
+  .settings-icon{ font-size: 16px; width: 20px; text-align: center; }
+  .settings-chevron{ color: #55503f; font-family: 'JetBrains Mono', monospace; }
+  .settings-sub{ font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .toggle{
+    width: 38px; height: 22px;
+    border-radius: 20px;
+    background: var(--border);
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .toggle.on{ background: var(--accent-soft); }
+  .toggle-knob{
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #55503f;
+    transition: transform 0.15s ease;
+  }
+  .toggle.on .toggle-knob{ background: var(--accent); transform: translateX(16px); }
+
+  .segmented{
+    display: flex;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2px;
+    gap: 2px;
+  }
+  .segmented button{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    padding: 5px 10px;
+    border-radius: 18px;
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .segmented button.selected{
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .crisis-note{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    padding: var(--space-3);
+    border-left: 2px solid var(--crisis);
+    margin-top: var(--space-4);
+  }
+
+  .legend{
+    width: 100%;
+    max-width: 900px;
+    margin-top: 20px;
+    color: #7a7565;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.8;
+  }
+  .legend b{ color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div>
+  <div class="frame-label">01 — Dashboard</div>
+  <div class="phone">
+    <div class="statusbar"></div>
+    <div class="screen">
+      <div class="app-header">
+        <div class="app-title">mind<span class="dot">·</span>scribe</div>
+        <div class="app-date">19 AUG 2026</div>
+      </div>
+
+      <div class="calendar-card">
+        <div class="calendar-month">August 2026</div>
+        <div class="cal-grid">
+          <div class="cal-dow">S</div><div class="cal-dow">M</div><div class="cal-dow">T</div><div class="cal-dow">W</div><div class="cal-dow">T</div><div class="cal-dow">F</div><div class="cal-dow">S</div>
+          <div class="cal-day"></div><div class="cal-day"></div><div class="cal-day"></div><div class="cal-day"></div><div class="cal-day"></div><div class="cal-day">1</div><div class="cal-day">2</div>
+          <div class="cal-day">3</div><div class="cal-day mood">4</div><div class="cal-day">5</div><div class="cal-day mood has-entry">🙂</div><div class="cal-day">7</div><div class="cal-day mood">8</div><div class="cal-day">9</div>
+          <div class="cal-day">10</div><div class="cal-day mood">🙂</div><div class="cal-day">12</div><div class="cal-day">13</div><div class="cal-day mood">😔</div><div class="cal-day">15</div><div class="cal-day">16</div>
+          <div class="cal-day mood">😌</div><div class="cal-day today">19</div><div class="cal-day">20</div><div class="cal-day">21</div><div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day">24</div>
+        </div>
+      </div>
+
+      <div class="section-label">Recent</div>
+      <div class="entry-row">
+        <div class="entry-mood">🙂</div>
+        <div class="entry-body">
+          <div class="entry-title">The depgraph thing finally clicked</div>
+          <div class="entry-snippet">Spent the morning stuck on the call-graph traversal, then just stepped away for coffee and it fell into place mid-pour, of all things.</div>
+          <div class="entry-date">AUG 17 · 08:42</div>
+        </div>
+      </div>
+      <div class="entry-row">
+        <div class="entry-mood">😌</div>
+        <div class="entry-body">
+          <div class="entry-title">Slower morning today</div>
+          <div class="entry-snippet">Took the kid up the ridge trail before it got hot. Shoulders are going to feel that tomorrow.</div>
+          <div class="entry-date">AUG 18 · 21:03</div>
+        </div>
+      </div>
+
+      <button class="fab">+</button>
+      <div class="tabbar">
+        <button class="tab active"><span class="tab-icon">◈</span>Dashboard</button>
+        <button class="tab"><span class="tab-icon">☰</span>History</button>
+        <button class="tab"><span class="tab-icon">⚙</span>Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="frame-label">02 — New Entry (chat-style)</div>
+  <div class="phone">
+    <div class="statusbar"></div>
+    <div class="screen" style="padding-bottom: 210px;">
+      <div class="app-header">
+        <div class="app-title" style="font-size:20px;">New entry</div>
+        <div class="app-date">19 AUG</div>
+      </div>
+
+      <div class="chat-scroll">
+        <div class="bubble-row from-app">
+          <div class="avatar-dot">m</div>
+          <div class="bubble app">
+            <span class="eyebrow">Today, if you'd like</span>
+            <span class="q">You mentioned the depgraph launch a couple times this week — did it end up shipping, or is it still simmering?</span>
+          </div>
+        </div>
+        <div class="bubble-actions"><button class="chip skip">Not this one, give me another</button></div>
+
+        <div class="bubble-row from-user">
+          <div class="bubble user">Shipped, actually. Weirdly satisfying, more than it probably should be for a side project.</div>
+        </div>
+
+        <div class="bubble-row from-app">
+          <div class="avatar-dot">m</div>
+          <div class="bubble app">
+            <span class="eyebrow">One quick thing</span>
+            <span class="q">What made today's attempt click when Monday's didn't?</span>
+          </div>
+        </div>
+        <div class="bubble-actions">
+          <button class="chip skip">Skip</button>
+        </div>
+      </div>
+
+      <div class="composer">
+        <div class="composer-input">
+          <span class="ph">Write your reply…</span>
+          <button class="composer-send">↑</button>
+        </div>
+        <div class="mood-inline">
+          <button>😔</button><button>😐</button><button class="selected">🙂</button><button>😌</button><button>😤</button>
+        </div>
+      </div>
+
+      <div class="tabbar">
+        <button class="tab"><span class="tab-icon">◈</span>Dashboard</button>
+        <button class="tab"><span class="tab-icon">☰</span>History</button>
+        <button class="tab"><span class="tab-icon">⚙</span>Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="frame-label">03 — New Entry (stuck path)</div>
+  <div class="phone">
+    <div class="statusbar"></div>
+    <div class="screen" style="padding-bottom: 210px;">
+      <div class="app-header">
+        <div class="app-title" style="font-size:20px;">New entry</div>
+        <div class="app-date">19 AUG</div>
+      </div>
+
+      <div class="chat-scroll">
+        <div class="bubble-row from-user">
+          <div class="bubble user draft">I don't know what to write today</div>
+        </div>
+        <div class="bubble-row from-app">
+          <div class="avatar-dot">m</div>
+          <div class="bubble app">
+            <span class="eyebrow">No pressure</span>
+            <span class="q">Anything stand out about today, even something small?</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="composer">
+        <div class="composer-input">
+          <span class="ph">Write your reply…</span>
+          <button class="composer-send">↑</button>
+        </div>
+      </div>
+
+      <div class="tabbar">
+        <button class="tab"><span class="tab-icon">◈</span>Dashboard</button>
+        <button class="tab"><span class="tab-icon">☰</span>History</button>
+        <button class="tab"><span class="tab-icon">⚙</span>Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="frame-label">04 — History</div>
+  <div class="phone">
+    <div class="statusbar"></div>
+    <div class="screen">
+      <div class="app-header">
+        <div class="app-title" style="font-size:20px;">History</div>
+      </div>
+
+      <div class="history-search">Search entries…</div>
+
+      <div class="history-month-label">August 2026</div>
+      <div class="entry-row">
+        <div class="entry-mood">🙂</div>
+        <div class="entry-body">
+          <div class="entry-title">The depgraph thing finally clicked</div>
+          <div class="entry-snippet">Spent the morning stuck on the call-graph traversal, then just stepped away for coffee.</div>
+          <div class="entry-date">AUG 17 · 08:42</div>
+        </div>
+        <button class="entry-delete">✕</button>
+      </div>
+      <div class="entry-row">
+        <div class="entry-mood">😌</div>
+        <div class="entry-body">
+          <div class="entry-title">Slower morning today</div>
+          <div class="entry-snippet">Took the kid up the ridge trail before it got hot.</div>
+          <div class="entry-date">AUG 18 · 21:03</div>
+        </div>
+        <button class="entry-delete">✕</button>
+      </div>
+      <div class="entry-row">
+        <div class="entry-mood">😔</div>
+        <div class="entry-body">
+          <div class="entry-title">14 August</div>
+          <div class="entry-snippet">Rough one. Rupiah news again, tried not to doomscroll.</div>
+          <div class="entry-date">AUG 14 · 22:15</div>
+        </div>
+        <button class="entry-delete">✕</button>
+      </div>
+
+      <div class="history-month-label">July 2026</div>
+      <div class="entry-row">
+        <div class="entry-mood">🙂</div>
+        <div class="entry-body">
+          <div class="entry-title">Pull-up progression, small win</div>
+          <div class="entry-snippet">First real dead hang past 20 seconds without my grip giving out.</div>
+          <div class="entry-date">JUL 29 · 07:10</div>
+        </div>
+        <button class="entry-delete">✕</button>
+      </div>
+      <div class="entry-row">
+        <div class="entry-mood">😐</div>
+        <div class="entry-body">
+          <div class="entry-title">28 July</div>
+          <div class="entry-snippet">Nothing much. Long day, mostly meetings.</div>
+          <div class="entry-date">JUL 28 · 21:47</div>
+        </div>
+        <button class="entry-delete">✕</button>
+      </div>
+
+      <div class="tabbar">
+        <button class="tab"><span class="tab-icon">◈</span>Dashboard</button>
+        <button class="tab active"><span class="tab-icon">☰</span>History</button>
+        <button class="tab"><span class="tab-icon">⚙</span>Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="frame-label">05 — Settings</div>
+  <div class="phone">
+    <div class="statusbar"></div>
+    <div class="screen">
+      <div class="app-header">
+        <div class="app-title" style="font-size:20px;">Settings</div>
+      </div>
+
+      <div class="section-label">Appearance</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <div class="settings-row-label"><span class="settings-icon">◐</span>Dark mode</div>
+          <div class="segmented">
+            <button>Off</button><button class="selected">On</button><button>Auto</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">Companion</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <div class="settings-row-label"><span class="settings-icon">✧</span>Manage memories</div>
+          <span class="settings-chevron">›</span>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-label">
+            <span class="settings-icon">⏰</span>
+            <div>
+              Daily reminder
+              <div class="settings-sub">End of day · 9:30 PM</div>
+            </div>
+          </div>
+          <div class="toggle on"><div class="toggle-knob"></div></div>
+        </div>
+      </div>
+
+      <div class="section-label">Privacy</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <div class="settings-row-label">
+            <span class="settings-icon">🔒</span>
+            <div>
+              PIN lock
+              <div class="settings-sub">Optional · off by default</div>
+            </div>
+          </div>
+          <div class="toggle"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-label"><span class="settings-icon">↓</span>Export backup</div>
+          <span class="settings-chevron">›</span>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-label"><span class="settings-icon">↑</span>Import backup</div>
+          <span class="settings-chevron">›</span>
+        </div>
+      </div>
+
+      <div class="crisis-note">
+        MindScribe is a reflective writing space, not a substitute for professional support. If you're struggling, real help is always closer than it feels — see crisis resources.
+      </div>
+
+      <div class="tabbar">
+        <button class="tab"><span class="tab-icon">◈</span>Dashboard</button>
+        <button class="tab"><span class="tab-icon">☰</span>History</button>
+        <button class="tab active"><span class="tab-icon">⚙</span>Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="legend">
+  Display: <b>Fraunces</b> (questions, entry titles, app name) · Body: <b>Work Sans</b> · Meta/labels: <b>JetBrains Mono</b><br>
+  Background <b>#15130f</b> · Accent (candlelight amber) <b>#e3a44c</b> · Calm/secondary (sage) <b>#6e8f80</b><br>
+  Entry screen uses chat-bubble visuals for the app's questions and your replies — still journal-primary underneath: one free write, at most 1–2 light follow-ups, easy to skip, no open thread
+</div>
+
+</body>
+</html>
