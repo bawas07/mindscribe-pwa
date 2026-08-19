@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dev-dist/
+
+# Model weights — fetched on first use, SW-runtime-cached (see public/models/README.md)
+public/models/*
+!public/models/README.md
+
+# Local env files
+*.local
+
+# Logs
+*.log
+
+# Test coverage
+coverage/
+
+# OS / editor
+.DS_Store
+
+# Local agent tool session/config data
+.pi/
