@@ -1,0 +1,72 @@
+/*
+ * Global styles: design tokens from the approved wireframe
+ * (docs/example-journal-first.html) + base resets.
+ *
+ * Fonts are self-hosted via @fontsource (offline requirement —
+ * no Google Fonts CDN references anywhere in the app).
+ */
+@import '@fontsource/fraunces/400.css';
+@import '@fontsource/fraunces/500.css';
+@import '@fontsource/fraunces/600.css';
+@import '@fontsource/work-sans/400.css';
+@import '@fontsource/work-sans/500.css';
+@import '@fontsource/work-sans/600.css';
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/500.css';
+
+:root {
+  --bg: #15130f;
+  --surface: #1d1a15;
+  --surface-raised: #251f17;
+  --border: #2e2a22;
+  --text: #ece6d8;
+  --text-muted: #9c9384;
+  --accent: #e3a44c;
+  --accent-soft: rgba(227, 164, 76, 0.14);
+  --calm: #6e8f80;
+  --calm-soft: rgba(110, 143, 128, 0.16);
+  --crisis: #c1666b;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 9px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Work Sans', sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Placeholder view styling — replaced by real screens in W4/W5/W7. */
+.view-stub {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-2);
+}
+
+.view-stub h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 26px;
+  letter-spacing: -0.01em;
+}
+
+.view-stub p {
+  color: var(--text-muted);
+  font-size: 14px;
+  max-width: 60ch;
+}
