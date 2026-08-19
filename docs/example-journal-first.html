@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MindScribe — Wireframe Preview (Journal-first)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #15130f;
+    --surface: #1d1a15;
+    --surface-raised: #251f17;
+    --border: #2e2a22;
+    --text: #ece6d8;
+    --text-muted: #9c9384;
+    --accent: #e3a44c;
+    --accent-soft: rgba(227,164,76,0.14);
+    --calm: #6e8f80;
+    --calm-soft: rgba(110,143,128,0.16);
+    --crisis: #c1666b;
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --radius-sm: 9px;
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 16px;
+    --space-4: 24px;
+    --space-5: 32px;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+
+  body{
+    background: #0a0906;
+    color: var(--text);
+    font-family: 'Work Sans', sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  .frame-label{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #5a5648;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .phone{
+    width: 380px;
+    height: 780px;
+    background: var(--bg);
+    border-radius: 40px;
+    border: 1px solid #33301f;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.7);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .statusbar{
+    height: 30px;
+    flex-shrink: 0;
+  }
+
+  .screen{
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 var(--space-4) 100px;
+    position: relative;
+  }
+
+  /* ---- Header ---- */
+  .app-header{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+  }
+  .app-title{
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .app-title .dot{ color: var(--accent); }
+  .app-date{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* ---- Calendar ---- */
+  .calendar-card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+  .calendar-month{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-3);
+  }
+  .cal-grid{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    text-align: center;
+  }
+  .cal-dow{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #55503f;
+    padding-bottom: 4px;
+  }
+  .cal-day{
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    border-radius: 50%;
+    color: var(--text-muted);
+    position: relative;
+  }
+  .cal-day.has-entry{ color: var(--text); }
+  .cal-day.has-entry::after{
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .cal-day.mood{ font-size: 15px; }
+  .cal-day.mood::after{ display: none; }
+  .cal-day.today{
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ---- Section label ---- */
+  .section-label{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: var(--space-2);
+  }
+
+  /* ---- Entry row (history + dashboard recent) ---- */
+  .entry-row{
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .entry-row:last-child{ border-bottom: none; }
+  .entry-mood{
+    font-size: 20px;
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .entry-body{ flex: 1; min-width: 0; }
+  .entry-title{
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+  .entry-snippet{
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .entry-date{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #55503f;
+    margin-top: 6px;
+  }
+  .entry-delete{
+    background: none;
+    border: none;
+    color: #55503f;
+    font-size: 15px;
+    cursor: pointer;
+    padding: 4px 6px;
+    align-self: center;
+  }
+
+  /* ---- History search / filter ---- */
+  .history-search{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: var(--space-4);
+  }
+  .history-month-label{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #55503f;
+    margin: var(--space-4) 0 var(--space-2);
+  }
+  .history-month-label:first-of-type{ margin-top: 0; }
+
+  /* ---- FAB ---- */
+  .fab{
+    position: absolute;
+    bottom: 92px;
+    right: 24px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #1a1408;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 500;
+    box-shadow: 0 0 0 0 rgba(227,164,76,0.5);
+    animation: glow 2.6s ease-in-out infinite;
+    border: none;
+    cursor: pointer;
+  }
+  @keyframes glow{
+    0%, 100%{ box-shadow: 0 0 0 0 rgba(227,164,76,0.35); }
+    50%{ box-shadow: 0 0 0 14px rgba(227,164,76,0); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .fab{ animation: none; }
+  }
+
+  /* ---- Bottom nav ---- */
+  .tabbar{
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 76px;
+    background: rgba(21,19,15,0.92);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding-bottom: 10px;
+  }
+  .tab{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #55503f;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .tab.active{ color: var(--accent); }
+  .tab-icon{ font-size: 18px; }
+
+  /* ---- Journal-first entry: writing surface ---- */
+  .entry-meta{
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #55503f;
+    margin-bottom: var(--space-3);
+  }
+  .entry-sheet{
+    flex: 1;
+    width: 100%;
+    background: transparent;
+    border: none;
+    resize: none;
+    outline: none;
+    color: var(--text);
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    line-height: 1.75;
+    letter-spacing: 0.005em;
+  }
+  .entry-sheet::placeholder{ color: #5a5648; }
+
+  /* ---- Light aside card (prompts / follow-ups — never blocks writing) ---- */
+  .aside-card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--calm);
+    border-radius: var(--radius-md);
+    padding: var(--space-3);
+    margin-bottom: var(--space-4);
+    flex-shrink: 0;
+  }
+  .aside-card.from-memory{ border-left-color: var(--accent); }
+  .aside-eyebrow{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--calm);
+    margin-bottom: 6px;
+  }
+  .aside-card.from-memory .aside-eyebrow{ color: var(--accent); }
+  .aside-q{
+    font-family: 'Fraunces', serif;
+    font-size: 15.5px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .aside-actions{
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .aside-count{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #55503f;
+    letter-spacing: 0.06em;
+    margin-left: auto;
+    align-self: center;
+  }
+
+  .chip{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 11px;
+    background: none;
+    cursor: pointer;
+  }
+  .chip.skip{ color: #55503f; }
+
+  .skip-link{
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 8px 14px;
+    cursor: pointer;
+  }
+
+  /* ---- Peek panel (swipe to see previous entry) ---- */
+  .peek-panel{
+    background: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 10px var(--space-3) var(--space-3);
+    margin-bottom: var(--space-4);
+    flex-shrink: 0;
+  }
+  .peek-grabber{
+    width: 40px; height: 4px;
+    border-radius: 2px;
+    background: var(--border);
+    margin: 0 auto 10px;
+  }
+  .peek-label{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .peek-title{
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .peek-body{
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .peek-hint{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #55503f;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  /* ---- Finish bar (mood + save) ---- */
+  .finish-bar{
+    flex-shrink: 0;
+    background: rgba(21,19,15,0.96);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border);
+    padding-top: var(--space-3);
+  }
+  .finish-label{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #55503f;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .mood-inline{
+    display: flex;
+    gap: 6px;
+    margin-bottom: var(--space-3);
+    justify-content: center;
+  }
+  .mood-inline button{
+    font-size: 16px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 9px;
+    opacity: 0.55;
+    cursor: pointer;
+  }
+  .mood-inline button.selected{
+    opacity: 1;
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  /* ---- Buttons ---- */
+  .btn{
+    font-family: 'Work Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 11px 18px;
+    cursor: pointer;
+  }
+  .btn-primary{ background: var(--accent); color: #1a1408; }
+  .btn-ghost{ background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+  .btn-full{ width: 100%; }
+
+  /* ---- Onboarding ---- */
+  .onboard{
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--space-5);
+    text-align: left;
+  }
+  .onboard .app-title{
+    font-size: 34px;
+    text-align: center;
+    margin: 56px 0 8px;
+  }
+  .onboard-tagline{
+    font-family: 'Fraunces', serif;
+    font-size: 15.5px;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: var(--space-5);
+  }
+  .onboard-block{
+    margin-bottom: var(--space-4);
+  }
+  .onboard-block p{
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--text);
+    margin-top: 6px;
+  }
+  .onboard-block .aside-eyebrow{ margin-bottom: 2px; }
+  .onboard-block.isnt .aside-eyebrow{ color: var(--crisis); }
+  .onboard .btn{
+    margin-top: auto;
+    margin-bottom: var(--space-5);
+  }
+
+  /* ---- Settings ---- */
+  .settings-group{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: var(--space-4);
+  }
+  .settings-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border);
+  }
+  .settings-row:last-child{ border-bottom: none; }
+  .settings-row-label{
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: 14px;
+  }
+  .settings-icon{ font-size: 16px; width: 20px; text-align: center; }
+  .settings-chevron{ color: #55503f; font-family: 'JetBrains Mono', monospace; }
+  .settings-sub{ font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .toggle{
+    width: 38px; height: 22px;
+    border-radius: 20px;
+    background: var(--border);
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .toggle.on{ background: var(--accent-soft); }
+  .toggle-knob{
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: #55503f;
+    transition: transform 0.15s ease;
+  }
+  .toggle.on .toggle-knob{ background: var(--accent); transform: translateX(16px); }
+
+  .segmented{
+    display: flex;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2px;
+    gap: 2px;
+  }
+  .segmented button{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    padding: 5px 10px;
+    border-radius: 18px;
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .segmented button.selected{
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .crisis-note{
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    padding: var(--space-3);
+    border-left: 2px solid var(--crisis);
+    margin-top: var(--space-4);
+  }
+
+  .legend{
+    width: 100%;
+    max-width: 900px;
+    margin-top: 20px;
+    color: #7a7565;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.8;
+  }
+  .legend b{ color: var(--accent); }
+</style>
+</head>
+<body>
+
+<!-- 00 — Onboarding -->
+<div>
+  <div class="frame-label">00 — Onboarding</div>
+  <div class="phone">
+    <div class="statusbar"></div>
+    <div class="screen onboard">
+      <div class="app-title">mind<span class="dot">·</span>scribe</div>
+      <div class="onboard-tagline">A quiet place to write, that writes back.</div>
+
+      <div class="onboard-block">
+        <div class="aside-eyebrow">What it is</div>
+        <p>A private journal. Every word stays on this device — nothing is sent anywhere. When you're stuck, it offers a gentle nudge; over time, it remembers your patterns so it can meet you where you are.</p>
+      </div>
+
+      <div class="onboard-block isnt">
+        <div class="aside-eyebrow">What it isn't</div>
+        <p>Therapy, or a diagnosis. MindScribe is a writing companion, not a clinician — and not a replacement for real support. If it ever sounds like you might be in crisis, it will quietly point you to resources that can actually help.</p>
+      </div>
+
+      <button class="btn btn-primary btn-full">Continue</button>
+    </div>
+  </div>
+</div>
+
+<!-- 01 — Dashboard -->
+<div>
+  <div class="frame-label">01 — Dashboard</div>
+  <div class="phone">
+    <div class="statusbar"></div>
+    <div class="screen">
+      <div class="app-header">
+        <div class="app-title">mind<span class="dot">·</span>scribe</div>
+        <div class="app-date">19 AUG 2026</div>
+      </div>
+
+      <div class="calendar-card">
+        <div class="calendar-month">August 2026</div>
+        <div class="cal-grid">
+          <div class="cal-dow">S</div><div class="cal-dow">M</div><div class="cal-dow">T</div><div class="cal-dow">W</div><div class="cal-dow">T</div><div class="cal-dow">F</div><div class="cal-dow">S</div>
+          <div class="cal-day"></div><div class="cal-day"></div><div class="cal-day"></div><div class="cal-day"></div><div class="cal-day"></div><div class="cal-day">1</div><div class="cal-day">2</div>
+          <div class="cal-day">3</div><div class="cal-day mood">4</div><div class="cal-day">5</div><div class="cal-day mood has-entry">🙂</div><div class="cal-day">7</div><div class="cal-day mood">8</div><div class="cal-day">9</div>
+          <div class="cal-day">10</div><div class="cal-day mood">🙂</div><div class="cal-day">12</div><div class="cal-day">13</div><div class="cal-day mood">😔</div><div class="cal-day">15</div><div class="cal-day">16</div>
+          <div class="cal-day mood">😌</div><div class="cal-day today">19</div><div class="cal-day">20</div><div class="cal-day">21</div><div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day">24</div>
+        </div>
+      </div>
+
+      <div class="section-label">Recent</div>
+      <div class="entry-row">
+        <div class="entry-mood">🙂</div>
+        <div class="entry-body">
+          <div class="entry-title">The depgraph thing finally clicked</div>
+          <div class="entry-snippet">Spent the morning stuck on the call-graph traversal, then just stepped away for coffee and it fell into place mid-pour, of all things.</div>
+          <div class="entry-date">AUG 17 · 08:42</div>
+        </div>
+      </div>
+      <div class="entry-row">
+        <div class="entry-mood">😌</div>
+        <div class="entry-body">
+          <div class="entry-title">Slower morning today</div>
+          <div class="entry-snippet">Took the kid up the ridge trail before it got hot. Shoulders are going to feel that tomorrow.</div>
+          <div class="entry-date">AUG 18 · 21:03</div>
+        </div>
+      </div>
+
+      <button class="fab">+</button>
+      <div class="tabbar">
+        <button class="tab active"><span class="tab-icon">◈</span>Dashboard</button>
+        <button class="tab"><span class="tab-icon">☰</span>History</button>
+        <button class="tab"><span class="tab-icon">⚙</span>Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 — New Entry (free write) -->
+<div>
+  <div class="frame-label">02 — New Entry (free write)</div>
+  <div class="phone">
+    <div class="statusbar"></div>
+    <div class="screen" style="display:flex; flex-direction:column; padding-bottom: 100px;">
+      <div class="app-header">
+        <div class="app-title" style="font-size:20px;">New entry</div>
+        <div class="app-date">19 AUG</div>
+      </div>
+
+      <div class="entry-meta"><span>22:14</span><span>thinking…</span></div>
+      <textarea class="entry-sheet" placeholder="What's on your mind…">Spent the morning stuck on the call-graph traversal, then just stepped away for coffee and it fell into place mid-pour, of all things.</textarea>
+
+      <div class="finish-bar">
+        <button class="btn btn-primary btn-full">Done</button>
+      </div>
+
+      <div class="tabbar">
+        <button class="tab"><span class="tab-icon">◈</span>Dashboard</button>
+        <button class="tab"><span class="tab-icon">☰</span>History</button>
+        <button class="tab"><span class="tab-icon">⚙</span>Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 — New Entry (stuck path, no history) -->
+<div>
+  <div class="frame-label">03 — New Entry (stuck · generic)</div>
+  <div class="phone">
+    <div class="statusbar"></div>
+    <div class="screen" style="display:flex; flex-direction:column; padding-bottom: 100px;">
+      <div class="app-header">
+        <div class="app-title" style="font-size:20px;">New entry</div>
+        <div class="app-date">19 AUG</div>
+      </div>
+
+      <div class="entry-meta"><span>22:14</span><span>stuck?</span></div>
+
+      <div class="aside-card">
+        <div class="aside-eyebrow">No pressure</div>
+        <div class="aside-q">Anything stand out about today, even something small?</div>
+        <div class="aside-actions">
+          <button class="chip">Not this one, give me another</button>
+          <button class="chip skip">Just a plain page</button>
+        </div>
+      </div>
+
+      <textarea class="entry-sheet" placeholder="What's on your mind…"></textarea>
+
+      <div class="finish-bar">
+        <button class="btn btn-primary btn-full">Done</button>
+      </div>
+
+      <div class="tabbar">
+        <button class="tab"><span class="tab-icon">◈</span>Dashboard</button>
+        <button class="tab"><span class="tab-icon">☰</span>History</button>
+        <button class="tab"><span class="tab-icon">⚙</span>Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 04 — New Entry (stuck path, from memory) -->
+<div>
+  <div class="frame-label">04 — New Entry (stuck · from memory)</div>
+  <div class="phone">
+    <div class="statusbar"></div>
+    <div class="screen" style="display:flex; flex-direction:column; padding-bottom: 100px;">
+      <div class="app-header">
+        <div class="app-title" style="font-size:20px;">New entry</div>
+        <div class="app-date">19 AUG</div>
+      </div>
+
+      <div class="entry-meta"><span>22:14</span><span>stuck?</span></div>
+
+      <div class="aside-card from-memory">
+        <div class="aside-eyebrow">From your recent entries</div>
+        <div class="aside-q">You mentioned the depgraph launch a couple times this week — did it end up shipping, or is it still simmering?</div>
+        <div class="aside-actions">
+          <button class="chip">Not this one, give me another</button>
+          <button class="chip skip">Just a plain page</button>
+        </div>
+      </div>
+
+      <textarea class="entry-sheet" placeholder="What's on your mind…"></textarea>
+
+      <div class="finish-bar">
+        <button class="btn btn-primary btn-full">Done</button>
+      </div>
+
+      <div class="tabbar">
+        <button class="tab"><span class="tab-icon">◈</span>Dashboard</button>
+        <button class="tab"><span class="tab-icon">☰</span>History</button>
+        <button class="tab"><span class="tab-icon">⚙</span>Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 — New Entry (after Done · opt-in) -->
+<div>
+  <div class="frame-label">05 — New Entry (opt-in)</div>
+  <div class="phone">
+    <div class="statusbar"></div>
+    <div class="screen" style="display:flex; flex-direction:column; padding-bottom: 100px;">
+      <div class="app-header">
+        <div class="app-title" style="font-size:20px;">New entry</div>
+        <div class="app-date">19 AUG</div>
+      </div>
+
+      <div class="entry-meta"><span>22:14</span><span>done</span></div>
+
+      <div class="aside-card">
+        <div class="aside-eyebrow">Want to talk about this?</div>
+        <div class="aside-q">A gentle question can help it settle. No pressure either way.</div>
+        <div class="aside-actions" style="flex-direction: column;">
+          <button class="btn btn-primary btn-full" style="font-size: 12.5px; padding: 9px 14px;">Yes, ask me something</button>
+          <button class="skip-link">No thanks — just save</button>
+        </div>
+      </div>
+
+      <textarea class="entry-sheet">Spent the morning stuck on the call-graph traversal, then just stepped away for coffee and it fell into place mid-pour, of all things.</textarea>
+
+      <div class="finish-bar">
+        <div class="finish-label">How did today feel?</div>
+        <div class="mood-inline">
+          <button>😔</button><button>😐</button><button class="selected">🙂</button><button>😌</button><button>😤</button>
+        </div>
+        <button class="btn btn-primary btn-full">Save entry</button>
+      </div>
+
+      <div class="tabbar">
+        <button class="tab"><span class="tab-icon">◈</span>Dashboard</button>
+        <button class="tab"><span class="tab-icon">☰</span>History</button>
+        <button class="tab"><span class="tab-icon">⚙</span>Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 06 — New Entry (follow-up · after Yes) -->
+<div>
+  <div class="frame-label">06 — New Entry (follow-up)</div>
+  <div class="phone">
+    <div class="statusbar"></div>
+    <div class="screen" style="display:flex; flex-direction:column; padding-bottom: 100px;">
+      <div class="app-header">
+        <div class="app-title" style="font-size:20px;">New entry</div>
+        <div class="app-date">19 AUG</div>
+      </div>
+
+      <div class="entry-meta"><span>22:14</span><span>question 1 of 2</span></div>
+
+      <div class="aside-card">
+        <div class="aside-eyebrow">One quick thing <span class="aside-count">1 of 2</span></div>
+        <div class="aside-q">What made today's attempt click when Monday's didn't?</div>
+        <button class="skip-link">Skip this question</button>
+      </div>
+
+      <textarea class="entry-sheet">Spent the morning stuck on the call-graph traversal, then just stepped away for coffee and it fell into place mid-pour, of all things.
+
+Funny how Monday went the same way but backwards — three hours of pushing and nothing. I think the difference was that today I'd already accepted the slow route before I even started. No deadline hanging over it, no one waiting on it. It just became a puzzle again instead of a problem. That's probably the actual thing I should remember.</textarea>
+
+      <div class="finish-bar">
+        <div class="finish-label">How did today feel?</div>
+        <div class="mood-inline">
+          <button>😔</button><button>😐</button><button class="selected">🙂</button><button>😌</button><button>😤</button>
+        </div>
+        <button class="btn btn-primary btn-full">Save entry</button>
+      </div>
+
+      <div class="tabbar">
+        <button class="tab"><span class="tab-icon">◈</span>Dashboard</button>
+        <button class="tab"><span class="tab-icon">☰</span>History</button>
+        <button class="tab"><span class="tab-icon">⚙</span>Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 07 — New Entry (follow-up · swipe-peek) -->
+<div>
+  <div class="frame-label">07 — New Entry (follow-up · peek)</div>
+  <div class="phone">
+    <div class="statusbar"></div>
+    <div class="screen" style="display:flex; flex-direction:column; padding-bottom: 100px;">
+      <div class="app-header">
+        <div class="app-title" style="font-size:20px;">New entry</div>
+        <div class="app-date">19 AUG</div>
+      </div>
+
+      <div class="entry-meta"><span>22:14</span><span>question 1 of 2</span></div>
+
+      <div class="aside-card">
+        <div class="aside-eyebrow">One quick thing <span class="aside-count">1 of 2</span></div>
+        <div class="aside-q">What made today's attempt click when Monday's didn't?</div>
+        <button class="skip-link">Skip this question</button>
+      </div>
+
+      <div class="peek-panel">
+        <div class="peek-grabber"></div>
+        <div class="peek-label">Monday's entry · pulled up for context</div>
+        <div class="peek-title">Stuck on the traversal</div>
+        <div class="peek-body">Three hours on the same edge case and nothing moved. Closed the laptop feeling like the whole idea was a mistake. Told myself I'd give it one more morning before shelving it.</div>
+        <div class="peek-hint">swipe ↑ to put it away</div>
+      </div>
+
+      <textarea class="entry-sheet">Spent the morning stuck on the call-graph traversal, then just stepped away for coffee and it fell into place mid-pour, of all things.</textarea>
+
+      <div class="finish-bar">
+        <div class="finish-label">How did today feel?</div>
+        <div class="mood-inline">
+          <button>😔</button><button>😐</button><button class="selected">🙂</button><button>😌</button><button>😤</button>
+        </div>
+        <button class="btn btn-primary btn-full">Save entry</button>
+      </div>
+
+      <div class="tabbar">
+        <button class="tab"><span class="tab-icon">◈</span>Dashboard</button>
+        <button class="tab"><span class="tab-icon">☰</span>History</button>
+        <button class="tab"><span class="tab-icon">⚙</span>Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 08 — History -->
+<div>
+  <div class="frame-label">08 — History</div>
+  <div class="phone">
+    <div class="statusbar"></div>
+    <div class="screen">
+      <div class="app-header">
+        <div class="app-title" style="font-size:20px;">History</div>
+      </div>
+
+      <div class="history-search">Search entries…</div>
+
+      <div class="history-month-label">August 2026</div>
+      <div class="entry-row">
+        <div class="entry-mood">🙂</div>
+        <div class="entry-body">
+          <div class="entry-title">The depgraph thing finally clicked</div>
+          <div class="entry-snippet">Spent the morning stuck on the call-graph traversal, then just stepped away for coffee.</div>
+          <div class="entry-date">AUG 17 · 08:42</div>
+        </div>
+        <button class="entry-delete">✕</button>
+      </div>
+      <div class="entry-row">
+        <div class="entry-mood">😌</div>
+        <div class="entry-body">
+          <div class="entry-title">Slower morning today</div>
+          <div class="entry-snippet">Took the kid up the ridge trail before it got hot.</div>
+          <div class="entry-date">AUG 18 · 21:03</div>
+        </div>
+        <button class="entry-delete">✕</button>
+      </div>
+      <div class="entry-row">
+        <div class="entry-mood">😔</div>
+        <div class="entry-body">
+          <div class="entry-title">14 August</div>
+          <div class="entry-snippet">Rough one. Rupiah news again, tried not to doomscroll.</div>
+          <div class="entry-date">AUG 14 · 22:15</div>
+        </div>
+        <button class="entry-delete">✕</button>
+      </div>
+
+      <div class="history-month-label">July 2026</div>
+      <div class="entry-row">
+        <div class="entry-mood">🙂</div>
+        <div class="entry-body">
+          <div class="entry-title">Pull-up progression, small win</div>
+          <div class="entry-snippet">First real dead hang past 20 seconds without my grip giving out.</div>
+          <div class="entry-date">JUL 29 · 07:10</div>
+        </div>
+        <button class="entry-delete">✕</button>
+      </div>
+      <div class="entry-row">
+        <div class="entry-mood">😐</div>
+        <div class="entry-body">
+          <div class="entry-title">28 July</div>
+          <div class="entry-snippet">Nothing much. Long day, mostly meetings.</div>
+          <div class="entry-date">JUL 28 · 21:47</div>
+        </div>
+        <button class="entry-delete">✕</button>
+      </div>
+
+      <div class="tabbar">
+        <button class="tab"><span class="tab-icon">◈</span>Dashboard</button>
+        <button class="tab active"><span class="tab-icon">☰</span>History</button>
+        <button class="tab"><span class="tab-icon">⚙</span>Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 09 — Settings -->
+<div>
+  <div class="frame-label">09 — Settings</div>
+  <div class="phone">
+    <div class="statusbar"></div>
+    <div class="screen">
+      <div class="app-header">
+        <div class="app-title" style="font-size:20px;">Settings</div>
+      </div>
+
+      <div class="section-label">Appearance</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <div class="settings-row-label"><span class="settings-icon">◐</span>Dark mode</div>
+          <div class="segmented">
+            <button>Off</button><button class="selected">On</button><button>Auto</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">Companion</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <div class="settings-row-label"><span class="settings-icon">✧</span>Manage memories</div>
+          <span class="settings-chevron">›</span>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-label">
+            <span class="settings-icon">⏰</span>
+            <div>
+              Daily reminder
+              <div class="settings-sub">End of day · 9:30 PM</div>
+            </div>
+          </div>
+          <div class="toggle on"><div class="toggle-knob"></div></div>
+        </div>
+      </div>
+
+      <div class="section-label">Privacy</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <div class="settings-row-label">
+            <span class="settings-icon">🔒</span>
+            <div>
+              PIN lock
+              <div class="settings-sub">Optional · off by default</div>
+            </div>
+          </div>
+          <div class="toggle"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-label"><span class="settings-icon">↓</span>Export backup</div>
+          <span class="settings-chevron">›</span>
+        </div>
+        <div class="settings-row">
+          <div class="settings-row-label"><span class="settings-icon">↑</span>Import backup</div>
+          <span class="settings-chevron">›</span>
+        </div>
+      </div>
+
+      <div class="crisis-note">
+        MindScribe is a reflective writing space, not a substitute for professional support. If you're struggling, real help is always closer than it feels — see crisis resources.
+      </div>
+
+      <div class="tabbar">
+        <button class="tab"><span class="tab-icon">◈</span>Dashboard</button>
+        <button class="tab"><span class="tab-icon">☰</span>History</button>
+        <button class="tab active"><span class="tab-icon">⚙</span>Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="legend">
+  Display: <b>Fraunces</b> (questions, entry titles, writing surface, app name) · Body: <b>Work Sans</b> · Meta/labels: <b>JetBrains Mono</b><br>
+  Background <b>#15130f</b> · Accent (candlelight amber) <b>#e3a44c</b> · Calm/secondary (sage) <b>#6e8f80</b><br>
+  Journal-first: the writing surface is always the dominant element — model prompts and follow-ups live in small aside cards and never block writing. Follow-ups are opt-in: after Done the app asks "Want to talk about this?" and the model only speaks if you say yes — at most 1–2 light questions, always skippable, no open thread.
+</div>
+
+</body>
+</html>
