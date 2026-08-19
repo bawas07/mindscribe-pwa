@@ -56,7 +56,9 @@ flowchart TD
     Start([Tap "Add new journal"]) --> Blank[Blank page, no forced prompt]
     Blank --> Write[User writes freely]
     Write --> Finish[User taps Done]
-    Finish --> FollowUp{Model offers 1-2 light follow-up questions}
+    Finish --> OptIn{Want to talk about this?}
+    OptIn -->|Yes| FollowUp[1-2 gentle follow-up questions]
+    OptIn -->|No thanks| Mood
     FollowUp -->|User responds| Append[Response appended to entry]
     FollowUp -->|User declines| Mood
     Append --> Mood[User picks mood emoji]
@@ -76,7 +78,9 @@ flowchart TD
     ThemePrompt --> Write[User writes]
     GenericPrompt --> Write
     Write --> Finish[User taps Done]
-    Finish --> FollowUp{Model offers 1-2 light follow-up questions}
+    Finish --> OptIn{Want to talk about this?}
+    OptIn -->|Yes| FollowUp[1-2 gentle follow-up questions]
+    OptIn -->|No thanks| Mood
     FollowUp -->|User responds| Append[Response appended to entry]
     FollowUp -->|User declines| Mood
     Append --> Mood[User picks mood emoji]
@@ -137,6 +141,6 @@ flowchart TD
 ## Wireframe-level notes
 
 - Dashboard calendar: current month view, entry-day markers, mood emoji per day (single emoji per day even with multiple entries — see PRD open question on which entry's mood wins if more than one)
-- New Entry screen: blank textarea first and foremost; any prompt/follow-up UI should feel like a light aside (e.g. a small card above or below the write area), not a modal that blocks writing
-- Follow-up question UI should make "just close it out" at least as easy/visible as "respond" — no dark-pattern nudging toward more interaction than the user wants
+- New Entry screen: blank textarea first and foremost; any prompt/follow-up UI should feel like a light aside (e.g. a small card above or below the write area), not a modal that blocks writing. Follow-ups are opt-in — after Done the app asks "Want to talk about this?" and the model never interjects on its own
+- Follow-up question UI should make "just close it out" at least as easy/visible as "respond" — no dark-pattern nudging toward more interaction than the user wants. Responses are written in the main writing surface, never a one-line input — a question may stir up a lot, and the UI should welcome that. Before answering, the user can swipe to peek at the previous entries the question references (read-only), without leaving the writing surface
 - Settings groups: Reminder / Manage Memories / PIN Lock / Export / Import — flat list is fine at this scope, no need for sub-categories yet

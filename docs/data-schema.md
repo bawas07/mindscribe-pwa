@@ -1,6 +1,6 @@
 # MindScribe (Reflective Journal PWA) — Data Schema
 
-All data lives in IndexedDB (via Dexie.js), on-device only. No server, no remote schema. Diagram uses `erDiagram` for clarity even though the underlying store is IndexedDB, not SQL.
+All data lives in IndexedDB (via Dexie.js), on-device only. No server, no remote schema. Field names are camelCase in the implementation (TS/JS convention) — this doc mirrors the code. Diagram uses `erDiagram` for clarity even though the underlying store is IndexedDB, not SQL.
 
 ## Entity relationships
 
@@ -12,30 +12,31 @@ erDiagram
 
     ENTRY {
         string id PK
-        string created_at
-        blob content_encrypted
-        string mood_emoji
-        boolean has_followup
+        string createdAt
+        blob contentEncrypted
+        string moodEmoji
+        boolean hasFollowup
     }
     FOLLOWUP_RESPONSE {
         string id PK
-        string entry_id FK
-        blob question_encrypted
-        blob response_encrypted
+        string entryId FK
+        blob questionEncrypted
+        blob responseEncrypted
+        string[] referencedEntryIds
     }
     ROLLING_SUMMARY {
         string id PK
-        string generated_at
-        blob themes_encrypted
-        string source_entry_count
+        string generatedAt
+        blob themesEncrypted
+        number sourceEntryCount
     }
     SETTINGS {
         string id PK
-        boolean pin_enabled
-        string reminder_time
-        string reminder_mode
-        string last_export_at
-        string model_version
+        boolean pinEnabled
+        string reminderTime
+        string reminderMode
+        string lastExportAt
+        string modelVersion
     }
 ```
 
@@ -47,36 +48,37 @@ Note: `ROLLING_SUMMARY` is a derived aggregate, not linked to individual entries
 | Field | Type | Notes |
 |---|---|---|
 | id | string (uuid) | PK |
-| created_at | ISO timestamp | plaintext — needed for calendar queries without decrypting every entry |
-| content_encrypted | blob | AES-GCM encrypted entry text |
-| mood_emoji | string | plaintext — user-selected, used for calendar display; not sensitive enough to require decryption just to render the dashboard |
-| has_followup | boolean | plaintext — flags whether a FollowupResponse exists, for UI purposes |
+| createdAt | ISO timestamp | plaintext — needed for calendar queries without decrypting every entry (indexed) |
+| contentEncrypted | blob | AES-GCM encrypted entry text |
+| moodEmoji | string | plaintext — user-selected, used for calendar display; not sensitive enough to require decryption just to render the dashboard |
+| hasFollowup | boolean | plaintext — flags whether a FollowupResponse exists, for UI purposes |
 
 ### FollowupResponse
 | Field | Type | Notes |
 |---|---|---|
 | id | string (uuid) | PK |
-| entry_id | string (uuid) | FK → Entry |
-| question_encrypted | blob | the model's follow-up question, encrypted |
-| response_encrypted | blob | user's response, encrypted, appended context to the entry |
+| entryId | string (uuid) | FK → Entry (indexed, for cascade reads/deletes) |
+| questionEncrypted | blob | the model's follow-up question, encrypted |
+| responseEncrypted | blob | user's response, encrypted, appended context to the entry |
+| referencedEntryIds | string[] (uuid) | plaintext — ids of entries the question was grounded in, so the UI can offer a swipe-peek at them before the user answers; ids alone leak nothing |
 
 ### RollingSummary
 | Field | Type | Notes |
 |---|---|---|
 | id | string (uuid) | PK — typically only one active row, but versioned for regeneration history if useful |
-| generated_at | ISO timestamp | plaintext |
-| themes_encrypted | blob | encrypted structured list: `[{ topic, last_mentioned_days_ago, mention_count }]` |
-| source_entry_count | number | plaintext — how many entries this summary was generated from, useful for debugging/regeneration logic |
+| generatedAt | ISO timestamp | plaintext |
+| themesEncrypted | blob | encrypted structured list: `[{ topic, lastMentionedDaysAgo, mentionCount }]` |
+| sourceEntryCount | number | plaintext — how many entries this summary was generated from, useful for debugging/regeneration logic |
 
 ### Settings
 | Field | Type | Notes |
 |---|---|---|
 | id | string | PK, single row |
-| pin_enabled | boolean | plaintext |
-| reminder_time | string (HH:mm) | plaintext, optional |
-| reminder_mode | enum | `start_of_day` \| `end_of_day` \| `off` |
-| last_export_at | ISO timestamp | plaintext, optional |
-| model_version | string | tracks which model/quant version is loaded, for future migration handling |
+| pinEnabled | boolean | plaintext |
+| reminderTime | string (HH:mm) | plaintext, optional |
+| reminderMode | enum | `start_of_day` \| `end_of_day` \| `off` |
+| lastExportAt | ISO timestamp | plaintext, optional |
+| modelVersion | string | tracks which model/quant version is loaded, for future migration handling |
 
 ## What's encrypted vs plaintext, and why
 

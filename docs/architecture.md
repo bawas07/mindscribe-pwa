@@ -92,7 +92,7 @@ src/
 ## Libraries / dependencies
 
 - `dexie` — IndexedDB wrapper
-- `wllama` — WASM LLM inference
+- `@wllama/wllama` — WASM LLM inference (the unscoped `wllama` npm name was removed; this is the official successor package, same author/repo)
 - Web Crypto API — native, no dependency needed for AES-GCM/PBKDF2
 
 ## Open questions / TODO
